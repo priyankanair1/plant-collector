@@ -5,17 +5,12 @@
 
 {% for plant in plants %}
   <div class="card">
+    <a href="{% url 'detail' plant.id %}">
     <div class="card-content">
       <span class="card-title">{{ plant.name }}</span>
-      <p>Habit:{{ plant.habit }}</p>
-      <p>Description: {{ plant.description }}</p>
-      {% if plant.growth > 15 %}
-        <p>Growth: {{ plant.growth }}</p>
-      {% else %}
-        <p>Growth: Shurbs </p>
-       
-      {% endif %}
+  
     </div>
+  </a>
   </div>
 {% endfor %}
 

@@ -1,9 +1,6 @@
 from django.shortcuts import render
-plants = [
-  {'name': 'Maple', 'habit': 'Trees', 'description': 'Large, woody plants', 'growth': 40 },
-  {'name': 'Lilac', 'habit': 'Shrubs', 'description': 'Smaller woody plants', 'growth': 12},
-  {'name': 'Corn', 'habit': 'Grasses', 'description': 'Non-woody plants', 'growth': 5 },
-]
+from .models import Plant
+
 
 
 # Create your views here.
@@ -18,7 +15,12 @@ def about(request):
 
 
 def plants_index(request):
-  
-  return render(request, 'plants/index.html', {
-    'plants': plants
-  })
+    plants = Plant.objects.all() 
+    return render(request, 'plants/index.html', 
+    { 
+        'plants': plants 
+    }
+)
+def plants_detail(request, plant_id):
+  plant = Plant.objects.get(id=plant_id)
+  return render(request, 'plants/detail.html', { 'plant': plant })

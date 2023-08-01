@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Plant Details</h1>
+
+
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">{{ plant.name }}</span>
+      <p>Habit:{{ plant.habit }}</p>
+      <p>Description: {{ plant.description|linebreaks }}</p>
+      {% if plant.growth > 15 %}
+        <p>Growth: {{ plant.growth }}</p>
+      {% else %}
+        <p>Growth: Shurbs </p>
+       
+      {% endif %}
+    </div>
+
+  </div>
+
+{% endblock %}
