@@ -10,5 +10,12 @@ urlpatterns = [
  path('plants/<int:pk>/update/', views.PlantUpdate.as_view(), name='plants_update'),
  path('plants/<int:pk>/delete/', views.PlantDelete.as_view(), name='plants_delete'),
  path('plants/<int:plant_id>/add_watering/', views.add_watering, name='add_watering'),
+ path('plants/<int:plant_id>/assoc_soil/<int:soil_id>/', views.assoc_soil, name='assoc_soil'),
+ path('plants/<int:plant_id>/unassoc_soil/<int:soil_id>/', views.unassoc_soil, name='unassoc_soil'),
+ path('soils/', views.SoilList.as_view(), name='soils_index'),
+ path('soils/<int:pk>/', views.SoilDetail.as_view(), name='soils_detail'),
+ path('soils/create/', views.SoilCreate.as_view(), name='soils_create'),
+ path('soils/<int:pk>/update/', views.SoilUpdate.as_view(), name='soils_update'),
+ path('soils/<int:pk>/delete/', views.SoilDelete.as_view(), name='soils_delete'),
 ]
 

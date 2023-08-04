@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Plant
+from django.views.generic import ListView, DetailView
+from .models import Plant, Soil
 from .forms import WateringForm
 
 
@@ -22,11 +23,14 @@ def plants_index(request):
 
 def plants_detail(request, plant_id):
     plant = Plant.objects.get(id=plant_id)
+    id_list = plant.soils.all().values_list('id')
+    soils_plant_doesnt_have = Soil.objects.exclude(id__in=id_list)
     watering_form = WateringForm()
     print (plant.watering_set.all())
     return render(
-        request, "plants/detail.html", {"plant": plant, "watering_form": watering_form}
-    )
+        request, "plants/detail.html", {"plant": plant, "watering_form": watering_form, 'soils': soils_plant_doesnt_have
+  })
+    
 
 
 def add_watering(request, plant_id):
@@ -40,7 +44,8 @@ def add_watering(request, plant_id):
 
 class PlantCreate(CreateView):
     model = Plant
-    fields = "__all__"
+    fields = ['name', 'habit', 'description', 'growth']
+
 
 
 class PlantUpdate(UpdateView):
@@ -51,3 +56,30 @@ class PlantUpdate(UpdateView):
 class PlantDelete(DeleteView):
     model = Plant
     success_url = "/plants"
+
+class SoilList(ListView):
+  model = Soil
+
+class SoilDetail(DetailView):
+  model = Soil
+
+class SoilCreate(CreateView):
+  model = Soil
+  fields = '__all__'
+
+class SoilUpdate(UpdateView):
+  model = Soil
+  fields = ['soil_type', 'benefits']
+
+class SoilDelete(DeleteView):
+  model = Soil
+  success_url = '/soils'
+
+
+def assoc_soil(request, plant_id, soil_id):
+  Plant.objects.get(id=plant_id).soils.add(soil_id)
+  return redirect('detail', plant_id=plant_id)
+
+def unassoc_soil(request, plant_id, soil_id):
+  Plant.objects.get(id=plant_id).soils.remove(soil_id)
+  return redirect('detail', plant_id=plant_id)

@@ -7,12 +7,26 @@ WATER = (
     ("F", "Frequent"),
 )
 
+class Soil(models.Model):
+  soil_type = models.CharField(max_length=50)
+  benefits = models.CharField(max_length=100)
+
+  def __str__(self):
+    return self.name
+
+  def get_absolute_url(self):
+    return reverse('soils_detail', kwargs={'pk': self.id})
+
+
 
 class Plant(models.Model):  
     name = models.CharField(max_length=100)
     habit = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     growth = models.IntegerField()
+
+    soils = models.ManyToManyField(Soil)
+
 
     def __str__(self):
         return f"{self.name} ({self.id})"
